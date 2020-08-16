@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import "./ChatScreen.css";
 
-const ChatScreen = () => {
+const ChatScreen = (props) => {
   const [input, setInput] = useState("");
   const [messages, setMessage] = useState([
     {
@@ -30,7 +30,7 @@ const ChatScreen = () => {
 
   return (
     <div className="chatScreen">
-      <p className="chatScreen__timestamp">YOU MATCHED WITH ELLEN ON 10/08/2020</p>
+      <p className="chatScreen__timestamp">YOU MATCHED WITH Jay ON 10/08/2020</p>
       {messages.map((message) =>
         message.name ? (
           <div className="chatScreen__message" key={message.message}>

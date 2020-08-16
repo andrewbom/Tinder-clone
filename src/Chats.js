@@ -25,6 +25,7 @@ const Chats = () => {
           message={person.message}
           timestamp={`${person.time} ago`}
           profilePic={person.url}
+          key={person.name}
         />
       ))}
     </div>
