@@ -1,37 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Chat from "./Chat";
+import database from "./firebase";
+
 import "./Chats.css";
 
 const Chats = () => {
+  const [people, setPeople] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = database
+      .collection("people")
+      .onSnapshot((snapshot) => setPeople(snapshot.docs.map((doc) => doc.data())));
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <div className="chats">
-      <Chat
-        name="Jay"
-        message="Yo whats up!"
-        timestamp="40 seconds ago"
-        profilePic="https://tnimage.s3.hicloud.net.tw/photos/2020/AP/20200507/47ccf60fb6634e1ea95e9050979bf4ff.jpg"
-      />
-
-      <Chat
-        name="Mark"
-        message="Yo whats up!"
-        timestamp="40 seconds ago"
-        profilePic="https://tnimage.s3.hicloud.net.tw/photos/2020/AP/20200507/47ccf60fb6634e1ea95e9050979bf4ff.jpg"
-      />
-
-      <Chat
-        name="John"
-        message="Yo whats up!"
-        timestamp="40 seconds ago"
-        profilePic="https://tnimage.s3.hicloud.net.tw/photos/2020/AP/20200507/47ccf60fb6634e1ea95e9050979bf4ff.jpg"
-      />
-
-      <Chat
-        name="Ann"
-        message="Yo whats up!"
-        timestamp="40 seconds ago"
-        profilePic="https://tnimage.s3.hicloud.net.tw/photos/2020/AP/20200507/47ccf60fb6634e1ea95e9050979bf4ff.jpg"
-      />
+      {people.map((person) => (
+        <Chat
+          name={person.name}
+          message={person.message}
+          timestamp={`${person.time} ago`}
+          profilePic={person.url}
+        />
+      ))}
     </div>
   );
 };
